@@ -91,7 +91,7 @@ scaled_data <- data
 scaled_data[,1:3] <- scale(data[,1:3],
                            center=TRUE, 
                            scale=apply(data[,1:3],2, sd, na.rm=TRUE))
-lda <- lda(scaled_data[,1:3], scaled_data[,5], prior=c(1,1,1)/3)
+(lda <- lda(scaled_data[,1:3], scaled_data[,5], prior=c(1,1,1)/3))
 lda$scaling
 plda <- predict(lda)
 
@@ -133,3 +133,10 @@ ggplot(df,aes(x,y,color=factor(class),shape=factor(class))) +
          y = paste("LD2 (", percent(prop.lda[2]), ")", sep="")) +
     ggtitle("LDA Projection Data") + 
     theme(plot.title = element_text(lineheight=.8, face="bold"))
+
+# territorial map
+load_package("klaR")
+partimat(class ~ y + x,
+         data=scaled_data[,1:3],
+         method="lda",
+         main="Data Partitioned by Class")
